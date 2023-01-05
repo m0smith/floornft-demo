@@ -1,0 +1,8 @@
+.env
+.vscode
+.yarnclean
+build
+*.log
+*.lock
+node_modules
+
