@@ -11,10 +11,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.NFTsService = void 0;
 const alchemyService_1 = require("./alchemyService");
+const openSeaService_1 = require("./openSeaService");
 class NFTsService {
     get(wallet, collection) {
         return __awaiter(this, void 0, void 0, function* () {
-            return new alchemyService_1.AlchemyService().getNfts(wallet, collection);
+            const walletValue = yield new alchemyService_1.AlchemyService().getNfts(wallet, collection);
+            for (let coll of walletValue.collections) {
+                yield (0, openSeaService_1.fetchOwnCollection)(coll);
+            }
+            return walletValue;
         });
     }
 }

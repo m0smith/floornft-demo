@@ -24,13 +24,14 @@ const options = {
 };
 const fetchOwnCollection = (coll) => __awaiter(void 0, void 0, void 0, function* () {
     if (!coll) {
-        return {};
+        return coll;
     }
-    console.log(coll);
-    console.log(`Fetching asset ${API} ${coll.collection_address}`);
     const { data, status } = yield axios_1.default.get(`${API}/asset_contract/${coll.collection_address}`, options);
-    console.log("Fetching coll");
-    const { data: collection, status: collectionStatus } = yield axios_1.default.get(`${API}/collection/${data.collection.slug}`, options);
-    return collection;
+    const { data: openSeaCollection, status: collectionStatus } = yield axios_1.default.get(`${API}/collection/${data.collection.slug}`, options);
+    const { collection } = openSeaCollection;
+    console.log(collection);
+    coll.slug = collection.slug;
+    coll.created_date = collection.created_date;
+    return coll;
 });
 exports.fetchOwnCollection = fetchOwnCollection;

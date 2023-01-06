@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import { Collection } from "./nft";
+import { Collection, OpenSeaCollection, OpenSeasCollectionResponse } from "./nft";
 
 const API = process.env.OPENSEA_API
 
@@ -12,9 +12,7 @@ const options = {
     }
   }
 
-interface PrimaryAssetContracts {
-    address: string
-}
+
 
 interface Asset{
     name:string,
@@ -26,23 +24,7 @@ interface AssetResponse {
     assets: Asset[]    
 }
 
-interface OpenSeaCollection {
-    banner_image_url:string,
-    chat_url: string, 
-    created_date: string,
-    default_to_fiat: boolean,
-    description: string,
-    dev_buyer_fee_basis_points: string,
-    dev_seller_fee_basis_points: string,
-    slug: string,
-    name: string,
-    primary_asset_contracts: PrimaryAssetContracts[]
 
-}
-
-interface CollectionsResponse {
-    collection: OpenSeaCollection[]
-}
 
 interface AssetContractResponse {
     collection: OpenSeaCollection,
@@ -58,22 +40,25 @@ interface CollectionSummary {
     owned: Asset
 }
 
-export const fetchOwnCollection = async (coll:Collection) => {
+export const fetchOwnCollection = async (coll:Collection):Promise<Collection> => {
     if(!coll) {
-        return {}
+        return coll
     }
-    console.log(coll)
-    console.log(`Fetching asset ${API} ${coll.collection_address}`)
     
     const {data, status} = await axios.get<AssetContractResponse>(
         `${API}/asset_contract/${coll.collection_address}`,
         options)
 
-    console.log("Fetching coll")
-    const {data: collection , status: collectionStatus} = await axios.get<Collection>(
+        const {data: openSeaCollection , status: collectionStatus} = await axios.get<OpenSeasCollectionResponse>(
         `${API}/collection/${data.collection.slug}`,
         options)
-  
-    return collection
+
+    const {collection} = openSeaCollection
+    console.log(collection)
+
+    coll.slug = collection.slug
+    coll.created_date = collection.created_date
+    
+    return coll
   };
   

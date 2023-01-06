@@ -10,7 +10,7 @@ import {
   } from "tsoa";
   import { Wallet, Collection } from "./nft";
   import { NFTsService } from "./nftsService";
-  import { fetchOwnCollection  } from "./openSeaService";
+  
   
   @Route("nfts")
   export class NFTsController extends Controller {
@@ -22,9 +22,7 @@ import {
       // console.log(await fetchOwnCollection())
       console.log(`Calling NFTService ${wallet} ${collection}`)
       const walletValue = await new NFTsService().get(wallet, collection)
-      for( let collectionValue of walletValue.collections) {
-        fetchOwnCollection(collectionValue)
-      }
+     
       return walletValue;
     }
   

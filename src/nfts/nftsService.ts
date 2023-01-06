@@ -1,9 +1,14 @@
 import { AlchemyService } from "./alchemyService";
 import {  Wallet, Collection } from "./nft";
+import { fetchOwnCollection as mergeOpenseaCollectionInfo  } from "./openSeaService";
 
 
 export class NFTsService {
   public async get(wallet: string, collection?: string): Promise<Wallet> {
-    return new AlchemyService().getNfts(wallet, collection)
+    const walletValue = await new AlchemyService().getNfts(wallet, collection)
+    for( let coll of walletValue.collections) {
+      await mergeOpenseaCollectionInfo(coll)
+    }
+    return walletValue
   }
 }

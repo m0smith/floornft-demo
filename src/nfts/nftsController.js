@@ -21,16 +21,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.NFTsController = void 0;
 const tsoa_1 = require("tsoa");
 const nftsService_1 = require("./nftsService");
-const openSeaService_1 = require("./openSeaService");
 let NFTsController = class NFTsController extends tsoa_1.Controller {
     getNFT(wallet, collection) {
         return __awaiter(this, void 0, void 0, function* () {
             // console.log(await fetchOwnCollection())
             console.log(`Calling NFTService ${wallet} ${collection}`);
             const walletValue = yield new nftsService_1.NFTsService().get(wallet, collection);
-            for (let collectionValue of walletValue.collections) {
-                (0, openSeaService_1.fetchOwnCollection)(collectionValue);
-            }
             return walletValue;
         });
     }
