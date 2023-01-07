@@ -24,7 +24,7 @@
     collections: Collection[]
   }
 
-  interface PrimaryAssetContracts {
+  export interface PrimaryAssetContracts {
     address: string
 }
   export interface OpenSeaCollection {

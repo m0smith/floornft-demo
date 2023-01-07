@@ -17,7 +17,7 @@ class NFTsService {
         return __awaiter(this, void 0, void 0, function* () {
             const walletValue = yield new alchemyService_1.AlchemyService().getNfts(wallet, collection);
             for (let coll of walletValue.collections) {
-                yield (0, openSeaService_1.fetchOwnCollection)(coll);
+                yield (0, openSeaService_1.mergeOpenseaCollectionInfo)(coll);
             }
             return walletValue;
         });

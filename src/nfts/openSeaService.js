@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.fetchOwnCollection = void 0;
+exports.mergeOpenseaCollectionInfo = exports.addOpenSeaInfo = void 0;
 const axios_1 = __importDefault(require("axios"));
 const API = process.env.OPENSEA_API;
 const options = {
@@ -22,7 +22,12 @@ const options = {
         'X-API-KEY': 'demo'
     }
 };
-const fetchOwnCollection = (coll) => __awaiter(void 0, void 0, void 0, function* () {
+const addOpenSeaInfo = (coll, openSeaColl) => {
+    coll.slug = openSeaColl.slug;
+    coll.created_date = openSeaColl.created_date;
+};
+exports.addOpenSeaInfo = addOpenSeaInfo;
+const mergeOpenseaCollectionInfo = (coll) => __awaiter(void 0, void 0, void 0, function* () {
     if (!coll) {
         return coll;
     }
@@ -30,8 +35,6 @@ const fetchOwnCollection = (coll) => __awaiter(void 0, void 0, void 0, function*
     const { data: openSeaCollection, status: collectionStatus } = yield axios_1.default.get(`${API}/collection/${data.collection.slug}`, options);
     const { collection } = openSeaCollection;
     console.log(collection);
-    coll.slug = collection.slug;
-    coll.created_date = collection.created_date;
     return coll;
 });
-exports.fetchOwnCollection = fetchOwnCollection;
+exports.mergeOpenseaCollectionInfo = mergeOpenseaCollectionInfo;

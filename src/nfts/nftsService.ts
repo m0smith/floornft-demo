@@ -1,6 +1,6 @@
 import { AlchemyService } from "./alchemyService";
 import {  Wallet, Collection } from "./nft";
-import { fetchOwnCollection as mergeOpenseaCollectionInfo  } from "./openSeaService";
+import { mergeOpenseaCollectionInfo  } from "./openSeaService";
 
 
 export class NFTsService {
